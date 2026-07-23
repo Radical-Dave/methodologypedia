@@ -1,4 +1,4 @@
-{% assign lang = site.active_lang %}
+{% assign lang = site.active_lang | default: "en" %}
 {% assign t = site.data.translations[lang] %}
 {% if lang == 'en' %}
   {% assign home_url = '/' | relative_url %}

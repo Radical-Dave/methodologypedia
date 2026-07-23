@@ -1,6 +1,6 @@
 <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-gray-950/80 border-b border-gray-200 dark:border-gray-800">
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-    {% assign lang = site.active_lang %}
+    {% assign lang = site.active_lang | default: "en" %}
     {% if lang == 'en' %}
       {% assign home_url = '/' | relative_url %}
     {% else %}

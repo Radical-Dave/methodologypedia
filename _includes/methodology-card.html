@@ -1,4 +1,4 @@
-{% assign lang = site.active_lang %}
+{% assign lang = site.active_lang | default: "en" %}
 {% assign m = methodology %}
 {% assign name = m.name_en %}
 {% assign pill = m.acronym %}

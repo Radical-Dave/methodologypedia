@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ site.active_lang }}" dir="{% if site.active_lang == 'ar' %}rtl{% else %}ltr{% endif %}">
+{% assign active_lang = site.active_lang | default: "en" %}
+<html lang="{{ active_lang }}" dir="{% if active_lang == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

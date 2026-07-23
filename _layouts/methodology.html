@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-{% assign lang = site.active_lang %}
+{% assign lang = site.active_lang | default: "en" %}
 {% assign m = page.methodology %}
 {% assign slug = m.slug %}
 {% for dm in site.data.methodologies %}
