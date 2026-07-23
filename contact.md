@@ -9,7 +9,7 @@ permalink: /contact/
 <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-8">{{ t.contact.title }}</h1>
 
-  <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+  <form id="contact-form" class="space-y-6">
     <input type="hidden" name="access_key" value="{{ site.web3forms_key }}">
     <input type="hidden" name="subject" value="MethodologyPedia Contact">
     <input type="checkbox" name="botcheck" class="hidden" style="display:none">
@@ -37,4 +37,23 @@ permalink: /contact/
       {{ t.contact.submit_button }}
     </button>
   </form>
+
+  <div id="contact-success" class="hidden text-center py-12">
+    <div class="text-5xl mb-4">&#10003;</div>
+    <p class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ t.contact.success }}</p>
+  </div>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var data = new FormData(form);
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+        .then(function(r) { return r.json(); })
+        .then(function() {
+          form.classList.add('hidden');
+          document.getElementById('contact-success').classList.remove('hidden');
+        });
+    });
+  </script>
 </div>

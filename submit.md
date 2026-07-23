@@ -10,7 +10,7 @@ permalink: /submit/
   <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-3">{{ t.submit.title }}</h1>
   <p class="text-gray-600 dark:text-gray-400 mb-8">{{ t.submit.description }}</p>
 
-  <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+  <form id="submit-form" class="space-y-6">
     <input type="hidden" name="access_key" value="{{ site.web3forms_key }}">
     <input type="hidden" name="subject" value="MethodologyPedia - New Methodology Submission">
     <input type="checkbox" name="botcheck" class="hidden" style="display:none">
@@ -52,4 +52,23 @@ permalink: /submit/
       {{ t.submit.submit_button }}
     </button>
   </form>
+
+  <div id="submit-success" class="hidden text-center py-12">
+    <div class="text-5xl mb-4">&#10003;</div>
+    <p class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ t.submit.success }}</p>
+  </div>
+
+  <script>
+    document.getElementById('submit-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var data = new FormData(form);
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+        .then(function(r) { return r.json(); })
+        .then(function() {
+          form.classList.add('hidden');
+          document.getElementById('submit-success').classList.remove('hidden');
+        });
+    });
+  </script>
 </div>
