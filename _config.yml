@@ -19,11 +19,6 @@ sass:
 kramdown:
   input: GFM
 
-i18n:
-  - "en"
-  - "ar"
-  - "es"
-
 meta:
   author: "Radical Dave"
   github: "https://github.com/radical-dave/methodologypedia"
