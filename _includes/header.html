@@ -1,0 +1,140 @@
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-gray-950/80 border-b border-gray-200 dark:border-gray-800">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    {% assign lang = site.active_lang %}
+    {% if lang == 'en' %}
+      {% assign home_url = '/' | relative_url %}
+    {% else %}
+      {% assign home_url = '/' | append: lang | append: '/' | relative_url %}
+    {% endif %}
+    <a href="{{ home_url }}" class="text-lg font-bold tracking-tight shrink-0">
+      <span class="bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 bg-clip-text text-transparent">Methodology</span><span class="text-gray-900 dark:text-gray-100">Pedia</span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      {% assign t = site.data.translations[lang] %}
+      {% if lang == 'en' %}
+        {% assign about_url = '/about/' | relative_url %}
+        {% assign contact_url = '/contact/' | relative_url %}
+        {% assign submit_url = '/submit/' | relative_url %}
+      {% else %}
+        {% assign about_url = '/' | append: lang | append: '/about/' | relative_url %}
+        {% assign contact_url = '/' | append: lang | append: '/contact/' | relative_url %}
+        {% assign submit_url = '/' | append: lang | append: '/submit/' | relative_url %}
+      {% endif %}
+      <a href="{{ home_url }}" class="px-2 sm:px-3 py-1 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors hidden sm:inline-block">{{ t.nav.home }}</a>
+      <a href="{{ about_url }}" class="px-2 sm:px-3 py-1 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors hidden sm:inline-block">{{ t.nav.about }}</a>
+      <a href="{{ contact_url }}" class="px-2 sm:px-3 py-1 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors hidden sm:inline-block">{{ t.nav.contact }}</a>
+      <a href="{{ submit_url }}" class="px-2 sm:px-3 py-1 text-sm font-medium rounded-md bg-violet-600 hover:bg-violet-700 text-white transition-colors hidden sm:inline-block">{{ t.nav.submit }}</a>
+
+      <button id="mobile-menu-btn" type="button" class="sm:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+
+      <div class="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-1 hidden sm:block"></div>
+
+      <div class="relative" id="lang-dropdown">
+        <button type="button" id="lang-dropdown-btn"
+          class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
+          aria-expanded="false" aria-haspopup="true">
+          <span id="current-lang-flag">{% if lang == 'en' %}🇺🇸{% elsif lang == 'en-gb' %}🇬🇧{% elsif lang == 'ar' %}🇸🇦{% elsif lang == 'es' %}🇪🇸{% endif %}</span>
+          <span class="uppercase text-xs">{{ lang }}</span>
+          <svg class="w-3.5 h-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div id="lang-dropdown-menu" class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+          <a href="#" data-lang="en"
+             class="flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {% if lang == 'en' %}bg-gray-50 dark:bg-gray-700/50 font-semibold{% endif %}">
+            <span>🇺🇸</span>
+            <span class="uppercase">en</span>
+            {% if lang == 'en' %}
+              <svg class="w-4 h-4 ml-auto text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            {% endif %}
+          </a>
+          <a href="#" data-lang="en-gb"
+             class="flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {% if lang == 'en-gb' %}bg-gray-50 dark:bg-gray-700/50 font-semibold{% endif %}">
+            <span>🇬🇧</span>
+            <span class="uppercase">en-gb</span>
+            {% if lang == 'en-gb' %}
+              <svg class="w-4 h-4 ml-auto text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            {% endif %}
+          </a>
+          <a href="#" data-lang="ar"
+             class="flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {% if lang == 'ar' %}bg-gray-50 dark:bg-gray-700/50 font-semibold{% endif %}">
+            <span>🇸🇦</span>
+            <span class="uppercase">ar</span>
+            {% if lang == 'ar' %}
+              <svg class="w-4 h-4 ml-auto text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            {% endif %}
+          </a>
+          <a href="#" data-lang="es"
+             class="flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {% if lang == 'es' %}bg-gray-50 dark:bg-gray-700/50 font-semibold{% endif %}">
+            <span>🇪🇸</span>
+            <span class="uppercase">es</span>
+            {% if lang == 'es' %}
+              <svg class="w-4 h-4 ml-auto text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+
+      <button id="theme-toggle" type="button" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors" aria-label="Toggle theme">
+        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden sm:hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl">
+    <div class="px-4 py-3 space-y-1">
+      <a href="{{ about_url }}" class="block px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors">{{ t.nav.about }}</a>
+      <a href="{{ contact_url }}" class="block px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors">{{ t.nav.contact }}</a>
+      <a href="{{ submit_url }}" class="block px-3 py-2 text-sm font-medium rounded-md bg-violet-600 hover:bg-violet-700 text-white transition-colors text-center">{{ t.nav.submit }}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+(function() {
+  var btn = document.getElementById('lang-dropdown-btn');
+  var menu = document.getElementById('lang-dropdown-menu');
+  if (!btn || !menu) return;
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var isOpen = !menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', !isOpen);
+  });
+
+  document.addEventListener('click', function() {
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  });
+
+  var mobileBtn = document.getElementById('mobile-menu-btn');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function() {
+      mobileMenu.classList.add('hidden');
+    });
+  }
+
+  var langs = ['en', 'ar', 'es'];
+  var links = menu.querySelectorAll('a[data-lang]');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = this.getAttribute('data-lang');
+      var path = window.location.pathname;
+      var stripped = path.replace(/^\/(en-gb|ar|es)/, '') || '/';
+      if (target === 'en') {
+        window.location.href = stripped;
+      } else {
+        window.location.href = '/' + target + stripped;
+      }
+    });
+  }
+})();
+</script>

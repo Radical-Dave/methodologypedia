@@ -1,0 +1,31 @@
+title: "MethodologyPedia"
+description: "The Encyclopedia of Software Development Methodologies That Probably Shouldn't Exist"
+url: "https://methodologypedia.com"
+baseurl: ""
+
+permalink: pretty
+
+plugins:
+  - jekyll-polyglot
+
+languages: ["en", "en-gb", "ar", "es"]
+default_lang: "en"
+exclude_from_localizations: ["assets", "favicon.ico"]
+
+sass:
+  sass_dir: assets/css
+  style: compressed
+
+kramdown:
+  input: GFM
+
+i18n:
+  - "en"
+  - "ar"
+  - "es"
+
+meta:
+  author: "Radical Dave"
+  github: "https://github.com/radical-dave/methodologypedia"
+
+web3forms_key: "836e263f-cad9-4ac5-8197-ef2b0ea379a9"

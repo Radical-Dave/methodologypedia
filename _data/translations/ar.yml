@@ -1,0 +1,45 @@
+nav:
+  home: "الرئيسية"
+  about: "حول"
+  contact: "اتصل بنا"
+  submit: "أرسل"
+
+home:
+  title: "MethodologyPedia"
+  subtitle: "موسوعة منهجيات تطوير البرمجيات التي على الأرجح لا يجب أن توجد"
+  search_placeholder: "ابحث عن المنهجيات..."
+  view_details: "عرض التفاصيل"
+  no_results: "لم يتم العثور على منهجيات."
+
+about:
+  title: "حول MethodologyPedia"
+
+contact:
+  title: "اتصل بنا"
+  name_label: "الاسم"
+  email_label: "البريد الإلكتروني"
+  message_label: "الرسالة"
+  submit_button: "إرسال الرسالة"
+  success: "تم إرسال الرسالة بنجاح!"
+  error: "حدث خطأ. يرجى المحاولة مرة أخرى."
+
+submit:
+  title: "أرسل منهجية"
+  description: "هل لديك منهجية تستحق أن تكون في الموسوعة؟ أرسلها هنا!"
+  name_label: "اسمك"
+  email_label: "البريد الإلكتروني"
+  methodology_name_label: "اسم المنهجية (مثال: TDD)"
+  methodology_full_name_label: "الاسم الكامل (مثال: التطوير المبني بالشاي)"
+  description_label: "الوصف"
+  submit_button: "إرسال المنهجية"
+  success: "تم إرسال المنهجية بنجاح! سنراجعها ونضيفها إلى الموسوعة."
+  error: "حدث خطأ. يرجى المحاولة مرة أخرى."
+
+methodology:
+  by: "بواسطة"
+  back_to_home: "العودة لجميع المنهجيات"
+  share: "مشاركة"
+
+footer:
+  powered_by: "بناء بواسطة"
+  and: "&"

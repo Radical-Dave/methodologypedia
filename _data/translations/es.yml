@@ -1,0 +1,45 @@
+nav:
+  home: "Inicio"
+  about: "Acerca de"
+  contact: "Contacto"
+  submit: "Enviar"
+
+home:
+  title: "MethodologyPedia"
+  subtitle: "La Enciclopedia de Metodologías de Desarrollo de Software que Probablemente No Deberían Existir"
+  search_placeholder: "Buscar metodologías..."
+  view_details: "Ver Detalles"
+  no_results: "No se encontraron metodologías."
+
+about:
+  title: "Acerca de MethodologyPedia"
+
+contact:
+  title: "Contacto"
+  name_label: "Nombre"
+  email_label: "Correo electrónico"
+  message_label: "Mensaje"
+  submit_button: "Enviar Mensaje"
+  success: "¡Mensaje enviado con éxito!"
+  error: "Algo salió mal. Por favor, intenta de nuevo."
+
+submit:
+  title: "Enviar una Metodología"
+  description: "¿Tienes una metodología que merece estar en la enciclopedia? ¡Envíala aquí!"
+  name_label: "Tu Nombre"
+  email_label: "Correo electrónico"
+  methodology_name_label: "Nombre de la Metodología (ej: TDD)"
+  methodology_full_name_label: "Nombre Completo (ej: Desarrollo Impulsado por Té)"
+  description_label: "Descripción"
+  submit_button: "Enviar Metodología"
+  success: "¡Metodología enviada con éxito! La revisaremos y la añadiremos a la enciclopedia."
+  error: "Algo salió mal. Por favor, intenta de nuevo."
+
+methodology:
+  by: "por"
+  back_to_home: "Volver a todas las metodologías"
+  share: "Compartir"
+
+footer:
+  powered_by: "Hecho por"
+  and: "&"
