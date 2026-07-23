@@ -371,3 +371,18 @@
   description_ar: "كل ساعة مستيقظة تُكرس لعملية التطوير على حساب الجودة وأفكار التصميم التي لا يقدرها إلا منحرمون من النوم. عادة ما يُلاحظ في المواعيد النهائية الضيقة مثل تلك في صناعة الألعاب."
   description_es: "Cada hora despierta se dedica al proceso de desarrollo a expensas de la calidad y las ideas de diseño que solo aprecian los privados de sueño. Normalmente se observa en cronogramas ajustados como los de la industria del gaming."
   author: ""
+
+- slug: cbd
+  acronym: "CBD"
+  acronym_ar: ""
+  acronym_es: "CBD"
+  name_en: "Calendar Blame Development"
+  name_ar: "تطوير إلقاء اللوم على التقويم"
+  name_es: "Desarrollo basado en culpas de calendario"
+  description_en: >
+    When deadlines are missed, instead of reflecting on estimates or scope creep, the team simply points at the calendar and blames the month.
+  description_ar: >
+    عندما يتم تفويت المواعيد النهائية، بدلاً من التفكير في تقديرات الوقت أو التوسع في نطاق العمل، يكتفي الفريق بالنظر إلى التقويم وإلقاء اللوم على الشهر.
+  description_es: >
+    Cuando no se cumplen los plazos, en lugar de reflexionar sobre las estimaciones o el alcance desmedido, el equipo simplemente señala el calendario y culpa al mes.
+  author: "Test User"
