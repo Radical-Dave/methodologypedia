@@ -1,0 +1,100 @@
+name: Submit Methodology
+
+on:
+  repository_dispatch:
+    types: [submit_methodology]
+
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Translate name to Arabic
+        uses: FidelusAleksander/ai-translate-action@v1
+        id: translate-name-ar
+        with:
+          text: ${{ github.event.client_payload.full_name }}
+          target-language: "Arabic"
+          custom-instructions: "Translate the software methodology name. Keep it concise. Only output the translation, nothing else."
+
+      - name: Translate name to Spanish
+        uses: FidelusAleksander/ai-translate-action@v1
+        id: translate-name-es
+        with:
+          text: ${{ github.event.client_payload.full_name }}
+          target-language: "Spanish"
+          custom-instructions: "Translate the software methodology name. Keep it concise. Only output the translation, nothing else."
+
+      - name: Translate description to Arabic
+        uses: FidelusAleksander/ai-translate-action@v1
+        id: translate-desc-ar
+        with:
+          text: ${{ github.event.client_payload.description }}
+          target-language: "Arabic"
+          custom-instructions: "Translate this satirical software methodology description. Maintain the humorous tone. Only output the translation, nothing else."
+
+      - name: Translate description to Spanish
+        uses: FidelusAleksander/ai-translate-action@v1
+        id: translate-desc-es
+        with:
+          text: ${{ github.event.client_payload.description }}
+          target-language: "Spanish"
+          custom-instructions: "Translate this satirical software methodology description. Maintain the humorous tone. Only output the translation, nothing else."
+
+      - name: Append methodology to YAML and create PR
+        run: |
+          # Build the slug from the methodology name
+          SLUG=$(echo "${{ github.event.client_payload.methodology_name }}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//')
+          echo "SLUG=$SLUG" >> $GITHUB_ENV
+          
+          # Build the new YAML entry
+          cat >> _data/methodologies.yml << YAML_ENTRY
+          
+          - slug: ${SLUG}
+            acronym: "${{ github.event.client_payload.methodology_name }}"
+            acronym_ar: ""
+            acronym_es: "${{ github.event.client_payload.methodology_name }}"
+            name_en: "${{ github.event.client_payload.full_name }}"
+            name_ar: "${{ steps.translate-name-ar.outputs.translated-text }}"
+            name_es: "${{ steps.translate-name-es.outputs.translated-text }}"
+            description_en: >
+              ${{ github.event.client_payload.description }}
+            description_ar: >
+              ${{ steps.translate-desc-ar.outputs.translated-text }}
+            description_es: >
+              ${{ steps.translate-desc-es.outputs.translated-text }}
+            author: "${{ github.event.client_payload.name }}"
+          YAML_ENTRY
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "feat: add methodology ${{ github.event.client_payload.methodology_name }}"
+          title: "New Methodology: ${{ github.event.client_payload.methodology_name }} - ${{ github.event.client_payload.full_name }}"
+          body: |
+            ## New Methodology Submission
+
+            **Acronym:** ${{ github.event.client_payload.methodology_name }}
+            **Full Name:** ${{ github.event.client_payload.full_name }}
+            **Submitted by:** ${{ github.event.client_payload.name }} (${{ github.event.client_payload.email }})
+
+            ### Description (English)
+            ${{ github.event.client_payload.description }}
+
+            ### Translations (auto-generated)
+            - **Arabic name:** ${{ steps.translate-name-ar.outputs.translated-text }}
+            - **Spanish name:** ${{ steps.translate-name-es.outputs.translated-text }}
+
+            ---
+            *Auto-translated using [ai-translate-action](https://github.com/FidelusAleksander/ai-translate-action). Please review translations before merging.*
+          branch: "methodology/${{ env.SLUG }}"
+          delete-branch: true
+          labels: |
+            new-methodology
+            auto-translated

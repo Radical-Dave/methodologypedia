@@ -30,10 +30,12 @@ jobs:
       - name: Build with Jekyll
         run: |
           echo "web3forms_key: \"$WEB3FORMS_KEY\"" > _config.secrets.yml
+          echo "dispatch_token: \"$DISPATCH_TOKEN\"" >> _config.secrets.yml
           bundle exec jekyll build --verbose --config _config.yml,_config.secrets.yml
         env:
           JEKYLL_ENV: production
           WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
+          DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

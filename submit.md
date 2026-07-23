@@ -11,10 +11,6 @@ permalink: /submit/
   <p class="text-gray-600 dark:text-gray-400 mb-8">{{ t.submit.description }}</p>
 
   <form id="submit-form" class="space-y-6">
-    <input type="hidden" name="access_key" value="{{ site.web3forms_key }}">
-    <input type="hidden" name="subject" value="MethodologyPedia - New Methodology Submission">
-    <input type="checkbox" name="botcheck" class="hidden" style="display:none">
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ t.submit.name_label }}</label>
@@ -62,13 +58,36 @@ permalink: /submit/
     document.getElementById('submit-form').addEventListener('submit', function(e) {
       e.preventDefault();
       var form = this;
-      var data = new FormData(form);
-      fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
-        .then(function(r) { return r.json(); })
-        .then(function() {
+      var payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        methodology_name: document.getElementById('methodology_name').value,
+        full_name: document.getElementById('methodology_full_name').value,
+        description: document.getElementById('description').value
+      };
+      fetch('https://api.github.com/repos/Radical-Dave/methodologypedia/dispatches', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token {{ site.dispatch_token }}',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          event_type: 'submit_methodology',
+          client_payload: payload
+        })
+      })
+      .then(function(r) {
+        if (r.ok) {
           form.classList.add('hidden');
           document.getElementById('submit-success').classList.remove('hidden');
-        });
+        } else {
+          alert('Submission failed. Please try again.');
+        }
+      })
+      .catch(function() {
+        alert('Network error. Please try again.');
+      });
     });
   </script>
 </div>
