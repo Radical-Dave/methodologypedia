@@ -28,9 +28,12 @@ jobs:
           bundler-cache: true
 
       - name: Build with Jekyll
-        run: bundle exec jekyll build --verbose
+        run: |
+          echo "web3forms_key: \"$WEB3FORMS_KEY\"" > _config.secrets.yml
+          bundle exec jekyll build --verbose --config _config.yml,_config.secrets.yml
         env:
           JEKYLL_ENV: production
+          WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
