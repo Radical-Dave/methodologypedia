@@ -7,10 +7,11 @@ permalink: pretty
 
 plugins:
   - jekyll-polyglot
+  - jekyll-sitemap
 
 languages: ["en", "en-gb", "ar", "es"]
 default_lang: "en"
-exclude_from_localizations: ["assets", "favicon.ico"]
+exclude_from_localizations: ["assets", "favicon.ico", "robots.txt", "sitemap.xml"]
 
 sass:
   sass_dir: assets/css
