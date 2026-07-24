@@ -152,7 +152,8 @@ permalink: /submit/
         description: document.getElementById('description').value,
         author_name: authorName,
         author_url: authorUrl,
-        resources: resources
+        resources: resources,
+        source_lang: '{{ lang }}'
       };
       fetch('https://api.github.com/repos/Radical-Dave/methodologypedia/dispatches', {
         method: 'POST',
