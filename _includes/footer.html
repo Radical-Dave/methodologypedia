@@ -5,21 +5,23 @@
   {% assign about_url = '/about/' | relative_url %}
   {% assign contact_url = '/contact/' | relative_url %}
   {% assign submit_url = '/submit/' | relative_url %}
+  {% assign sitemap_url = '/sitemap/' | relative_url %}
 {% else %}
   {% assign home_url = '/' | append: lang | append: '/' | relative_url %}
   {% assign about_url = '/' | append: lang | append: '/about/' | relative_url %}
   {% assign contact_url = '/' | append: lang | append: '/contact/' | relative_url %}
   {% assign submit_url = '/' | append: lang | append: '/submit/' | relative_url %}
+  {% assign sitemap_url = '/' | append: lang | append: '/sitemap/' | relative_url %}
 {% endif %}
 <footer class="border-t border-gray-200 dark:border-gray-800 mt-12">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
     <div class="flex items-center gap-4">
-      <a href="#" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">↑ Top</a>
+      <a href="#" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">↑ {{ t.footer.top }}</a>
       <a href="{{ home_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">{{ t.nav.home }}</a>
       <a href="{{ about_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">{{ t.nav.about }}</a>
       <a href="{{ contact_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">{{ t.nav.contact }}</a>
       <a href="{{ submit_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">{{ t.nav.submit }}</a>
-      <a href="{{ '/sitemap/' | relative_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Sitemap</a>
+      <a href="{{ sitemap_url }}" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">{{ t.footer.sitemap }}</a>
     </div>
     <p>
       {{ t.footer.powered_by }} <a href="https://radicaldave.com" target="_blank" rel="noopener" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">RadicalDave</a>
@@ -28,8 +30,7 @@
       {{ t.footer.and }} <a href="{{ site.meta.github }}" target="_blank" rel="noopener" class="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">GitHub</a>
     </p>
     <p class="text-xs text-gray-400 dark:text-gray-500 max-w-2xl text-center leading-relaxed">
-      Disclaimer: All content is the opinion of mine or the author and do not represent the views of my employer or anyone else.
-      Unless otherwise stated, all code is provided as is, without warranties or conditions of any kind, either express or implied, including without limitation any implied warranties or conditions of title, fitness for a particular purpose, merchantability or non-infringement.
+      {{ t.footer.disclaimer }}
     </p>
   </div>
 </footer>

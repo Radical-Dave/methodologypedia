@@ -1,9 +1,14 @@
 title: "MethodologyPedia"
-description: "The Encyclopedia of Software Development Methodologies That Probably Shouldn't Exist"
+description: "The Encyclopedia of Software Development Methodologies"
 url: "https://methodologypedia.com"
 baseurl: ""
 
 permalink: pretty
+
+collections:
+  methodologies:
+    output: true
+    permalink: /methodologies/:slug/
 
 plugins:
   - jekyll-polyglot

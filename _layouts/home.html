@@ -19,8 +19,20 @@ layout: default
     >
   </div>
 
+  <div class="mb-8 flex items-center justify-center gap-2" role="tablist" aria-label="Methodology type filter">
+    <button type="button" id="filter-real" data-filter="real" aria-pressed="true"
+      class="px-4 py-2 rounded-lg border border-violet-400 dark:border-violet-500 text-sm font-semibold text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-900/30 transition-colors">
+      Real
+    </button>
+    <button type="button" id="filter-satire" data-filter="satire" aria-pressed="false"
+      class="px-4 py-2 rounded-lg border border-violet-400 dark:border-violet-500 text-sm font-semibold text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-900/30 transition-colors">
+      Satire
+    </button>
+  </div>
+
   <div id="methodology-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-    {% for methodology in site.data.methodologies %}
+    {% assign methodologies = site.methodologies | sort: 'slug' %}
+    {% for methodology in methodologies %}
       {% include methodology-card.html methodology=methodology %}
     {% endfor %}
   </div>
@@ -36,19 +48,53 @@ document.addEventListener('DOMContentLoaded', function() {
   const grid = document.getElementById('methodology-grid');
   const noResults = document.getElementById('no-results');
   const cards = grid.querySelectorAll('[data-search]');
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  let activeFilter = 'real';
 
-  searchInput.addEventListener('input', function() {
-    const query = this.value.toLowerCase().trim();
+  function applyFilterButtonStyles() {
+    filterButtons.forEach(function(button) {
+      const isActive = button.getAttribute('data-filter') === activeFilter;
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      if (isActive) {
+        button.classList.add('border-violet-400', 'dark:border-violet-500', 'text-violet-700', 'dark:text-violet-300', 'bg-violet-50', 'dark:bg-violet-900/30');
+        button.classList.remove('border-gray-300', 'dark:border-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-800');
+      } else {
+        button.classList.remove('border-violet-400', 'dark:border-violet-500', 'text-violet-700', 'dark:text-violet-300', 'bg-violet-50', 'dark:bg-violet-900/30');
+        button.classList.add('border-gray-300', 'dark:border-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-800');
+      }
+    });
+  }
+
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase().trim();
     let visibleCount = 0;
 
     cards.forEach(function(card) {
       const searchText = card.getAttribute('data-search').toLowerCase();
-      const matches = !query || searchText.includes(query);
-      card.style.display = matches ? '' : 'none';
-      if (matches) visibleCount++;
+      const cardType = (card.getAttribute('data-type') || 'satire').toLowerCase();
+      const matchesQuery = !query || searchText.includes(query);
+      const matchesType = cardType === activeFilter;
+      const isVisible = matchesQuery && matchesType;
+      card.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
     });
 
     noResults.classList.toggle('hidden', visibleCount > 0);
+  }
+
+  searchInput.addEventListener('input', function() {
+    applyFilters();
   });
+
+  filterButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      activeFilter = button.getAttribute('data-filter');
+      applyFilterButtonStyles();
+      applyFilters();
+    });
+  });
+
+  applyFilterButtonStyles();
+  applyFilters();
 });
 </script>

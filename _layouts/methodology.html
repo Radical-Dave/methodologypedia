@@ -2,14 +2,20 @@
 layout: default
 ---
 {% assign lang = site.active_lang | default: "en" %}
-{% assign m = page.methodology %}
-{% assign slug = m.slug %}
-{% for dm in site.data.methodologies %}
-  {% if dm.slug == slug %}
-    {% assign dm_data = dm %}
-    {% break %}
-  {% endif %}
-{% endfor %}
+{% assign m = page %}
+{% assign author_name = m.author %}
+{% assign method_type = m.type | default: "satire" | downcase %}
+{% assign method_type_label = site.data.translations[lang].methodology.type_satire %}
+{% if method_type == 'real' %}
+  {% assign method_type_label = site.data.translations[lang].methodology.type_real %}
+{% endif %}
+{% if lang == 'ar' %}
+  {% assign author_name = m.author_ar | default: m.author %}
+{% elsif lang == 'en-gb' %}
+  {% assign author_name = m.author_en_gb | default: m.author %}
+{% elsif lang == 'es' %}
+  {% assign author_name = m.author_es | default: m.author %}
+{% endif %}
 
 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
   {% if lang == 'en' %}
@@ -25,23 +31,28 @@ layout: default
     <header class="mb-8">
       <div class="flex items-center gap-3 mb-3">
         {% if lang == 'ar' %}
-          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ dm_data.acronym_ar }}</span>
+          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ m.acronym_ar }}</span>
+        {% elsif lang == 'en-gb' %}
+          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ m.acronym_en_gb | default: m.acronym }}</span>
         {% elsif lang == 'es' %}
-          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ dm_data.acronym_es }}</span>
+          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ m.acronym_es }}</span>
         {% else %}
-          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ dm_data.acronym }}</span>
+          <span class="inline-block px-3 py-1 text-sm font-bold font-mono rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">{{ m.acronym }}</span>
         {% endif %}
       </div>
       <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-4">
-        {% if lang == 'ar' %}{{ dm_data.name_ar }}{% elsif lang == 'es' %}{{ dm_data.name_es }}{% else %}{{ dm_data.name_en }}{% endif %}
+        {% if lang == 'ar' %}{{ m.name_ar }}{% elsif lang == 'en-gb' %}{{ m.name_en_gb | default: m.name_en }}{% elsif lang == 'es' %}{{ m.name_es }}{% else %}{{ m.name_en }}{% endif %}
       </h1>
-      {% if dm_data.author != "" %}
+      <p class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+        {{ site.data.translations[lang].methodology.type_label }}: {{ method_type_label }}
+      </p>
+      {% if m.author != "" %}
         <p class="text-gray-600 dark:text-gray-400">
           {{ site.data.translations[lang].methodology.by }}
-          {% if dm_data.author_url %}
-            <a href="{{ dm_data.author_url }}" target="_blank" rel="noopener" class="text-violet-600 dark:text-violet-400 hover:underline">{{ dm_data.author }}</a>
+          {% if m.author_url %}
+            <a href="{{ m.author_url }}" target="_blank" rel="noopener" class="text-violet-600 dark:text-violet-400 hover:underline">{{ author_name }}</a>
           {% else %}
-            {{ dm_data.author }}
+            {{ author_name }}
           {% endif %}
         </p>
       {% endif %}
@@ -49,8 +60,41 @@ layout: default
 
     <div class="prose dark:prose-invert prose-lg max-w-none">
       <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-        {% if lang == 'ar' %}{{ dm_data.description_ar }}{% elsif lang == 'es' %}{{ dm_data.description_es }}{% else %}{{ dm_data.description_en }}{% endif %}
+        {% if lang == 'ar' %}{{ m.description_ar }}{% elsif lang == 'en-gb' %}{{ m.description_en_gb | default: m.description_en }}{% elsif lang == 'es' %}{{ m.description_es }}{% else %}{{ m.description_en }}{% endif %}
       </p>
+
+      {% if m.resources and m.resources.size > 0 %}
+        <div class="mt-6 text-base text-gray-700 dark:text-gray-300">
+          <strong>{{ site.data.translations[lang].methodology.resources }}:</strong>
+          <ul class="mt-2 list-disc list-inside space-y-1">
+            {% for resource in m.resources %}
+              {% assign resource_label = resource.label | default: resource.url %}
+              {% if lang == 'ar' %}
+                {% assign resource_label = resource.label_ar | default: resource_label %}
+              {% elsif lang == 'en-gb' %}
+                {% assign resource_label = resource.label_en_gb | default: resource_label %}
+              {% elsif lang == 'es' %}
+                {% assign resource_label = resource.label_es | default: resource_label %}
+              {% endif %}
+              {% if resource.label == "Wikipedia" %}
+                {% assign resource_label = site.data.translations[lang].methodology.wikipedia %}
+              {% endif %}
+              <li>
+                <a href="{{ resource.url }}" target="_blank" rel="noopener" class="text-violet-600 dark:text-violet-400 hover:underline">{{ resource_label }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% elsif m.reference_url and m.reference_url != "" %}
+        <p class="mt-6 text-base text-gray-700 dark:text-gray-300">
+          <strong>{{ site.data.translations[lang].methodology.resources }}:</strong>
+          {% if m.reference_label and m.reference_label != "" %}
+            <a href="{{ m.reference_url }}" target="_blank" rel="noopener" class="text-violet-600 dark:text-violet-400 hover:underline">{{ m.reference_label }}</a>
+          {% else %}
+            <a href="{{ m.reference_url }}" target="_blank" rel="noopener" class="text-violet-600 dark:text-violet-400 hover:underline">{{ m.reference_url }}</a>
+          {% endif %}
+        </p>
+      {% endif %}
     </div>
 
     <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">

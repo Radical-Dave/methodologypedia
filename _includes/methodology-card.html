@@ -1,10 +1,14 @@
 {% assign lang = site.active_lang | default: "en" %}
 {% assign m = methodology %}
+{% assign methodology_type = m.type | default: "satire" %}
 {% assign name = m.name_en %}
 {% assign pill = m.acronym %}
 {% if lang == 'ar' %}
   {% assign name = m.name_ar %}
   {% assign pill = m.acronym_ar %}
+{% elsif lang == 'en-gb' %}
+  {% assign name = m.name_en_gb | default: m.name_en %}
+  {% assign pill = m.acronym_en_gb | default: m.acronym %}
 {% elsif lang == 'es' %}
   {% assign name = m.name_es %}
   {% assign pill = m.acronym_es %}
@@ -15,7 +19,8 @@
 {% else %}
 <a href="{{ '/' | append: lang | append: '/methodologies/' | append: m.slug | append: '/' | relative_url }}"
 {% endif %}
-   data-search="{{ m.acronym }} {{ m.name_en }} {{ m.name_ar }} {{ m.name_es }}"
+  data-search="{{ m.acronym }} {{ m.name_en }} {{ m.name_en_gb }} {{ m.name_ar }} {{ m.name_es }}"
+  data-type="{{ methodology_type }}"
    class="group block p-5 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-violet-300 dark:hover:border-violet-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 hover:shadow-lg hover:shadow-violet-500/5">
   <div class="flex items-center gap-3">
     <span class="inline-block px-2.5 py-0.5 text-xs font-bold font-mono rounded-md bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 shrink-0">{{ pill }}</span>

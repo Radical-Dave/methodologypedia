@@ -1,14 +1,12 @@
 # MethodologyPedia
 
-The Encyclopedia of Software Development Methodologies That Probably Shouldn't Exist.
+The Encyclopedia of Software Development Methodologies.
 
 ## About
 
-Welcome to **MethodologyPedia**, the definitive encyclopedia of software development methodologies that probably shouldn't exist.
+Welcome to **MethodologyPedia**, the definitive encyclopedia of software development methodologies.
 
 This site started as a joke back in 2013 as a simple ASP.NET MVC website, and has evolved into a diverse collection of satirical methodologies shared by the software development community. From TDD (Tea Driven Development) to ZDD (Zzzzz Driven Development), we celebrate the humorous side of programming culture.
-
-Please do not use any of these methodologies in production work. We are not responsible for any failed projects resulting from the serious application of these methodologies.
 
 ## Tech Stack
 
@@ -60,7 +58,7 @@ bundle exec jekyll serve
 
 ## Submitting a Methodology
 
-Have a satirical methodology that deserves to be in the encyclopedia? Visit our [Submit page](https://methodologypedia.com/submit/) to share it with the world!
+Have a real or satirical methodology that deserves to be in the encyclopedia? Visit our [Submit page](https://methodologypedia.com/submit/) to share it with the world!
 
 ## License
 

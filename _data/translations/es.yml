@@ -6,7 +6,7 @@ nav:
 
 home:
   title: "MethodologyPedia"
-  subtitle: "La Enciclopedia de Metodologías de Desarrollo de Software que Probablemente No Deberían Existir"
+  subtitle: "La Enciclopedia de Metodologías de Desarrollo de Software"
   search_placeholder: "Buscar metodologías..."
   view_details: "Ver Detalles"
   no_results: "No se encontraron metodologías."
@@ -30,6 +30,16 @@ submit:
   email_label: "Correo electrónico"
   methodology_name_label: "Nombre de la Metodología (ej: TDD)"
   methodology_full_name_label: "Nombre Completo (ej: Desarrollo Impulsado por Té)"
+  methodology_type_label: "Tipo de metodología"
+  type_real: "Real"
+  type_satire: "Satírico"
+  author_name_label: "Nombre del autor"
+  author_name_placeholder: "Opcional; por defecto se usará tu nombre"
+  author_url_label: "URL del autor"
+  resources_label: "Recursos"
+  resource_name_placeholder: "Nombre del recurso (opcional)"
+  resource_url_placeholder: "URL del recurso (https://...)"
+  add_resource_button: "Agregar otro recurso"
   description_label: "Descripción"
   submit_button: "Enviar Metodología"
   success: "¡Metodología enviada con éxito! La revisaremos y la añadiremos a la enciclopedia."
@@ -39,7 +49,20 @@ methodology:
   by: "por"
   back_to_home: "Volver a todas las metodologías"
   share: "Compartir"
+  type_label: "Tipo"
+  type_real: "Real"
+  type_satire: "Satírico"
+  resources: "Recursos"
+  wikipedia: "Wikipedia"
 
 footer:
   powered_by: "Hecho por"
   and: "&"
+  top: "Arriba"
+  sitemap: "Mapa del sitio"
+  disclaimer: "Descargo de responsabilidad: todo el contenido refleja mi opinión o la del autor y no representa las opiniones de mi empleador ni de ninguna otra persona. Salvo que se indique lo contrario, todo el código se proporciona tal cual, sin garantías ni condiciones de ningún tipo, expresas o implícitas, incluidas, entre otras, garantías o condiciones implícitas de titularidad, idoneidad para un propósito particular, comerciabilidad o no infracción."
+
+sitemap:
+  title: "Mapa del sitio"
+  main_pages: "Páginas principales"
+  methodologies: "Metodologías"

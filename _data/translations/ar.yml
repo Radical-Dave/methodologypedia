@@ -6,7 +6,7 @@ nav:
 
 home:
   title: "MethodologyPedia"
-  subtitle: "موسوعة منهجيات تطوير البرمجيات التي على الأرجح لا يجب أن توجد"
+  subtitle: "موسوعة منهجيات تطوير البرمجيات"
   search_placeholder: "ابحث عن المنهجيات..."
   view_details: "عرض التفاصيل"
   no_results: "لم يتم العثور على منهجيات."
@@ -30,6 +30,16 @@ submit:
   email_label: "البريد الإلكتروني"
   methodology_name_label: "اسم المنهجية (مثال: TDD)"
   methodology_full_name_label: "الاسم الكامل (مثال: التطوير المبني بالشاي)"
+  methodology_type_label: "نوع المنهجية"
+  type_real: "حقيقي"
+  type_satire: "ساخر"
+  author_name_label: "اسم المؤلف"
+  author_name_placeholder: "اختياري؛ سيستخدم اسمك تلقائياً"
+  author_url_label: "رابط المؤلف"
+  resources_label: "الموارد"
+  resource_name_placeholder: "اسم المورد (اختياري)"
+  resource_url_placeholder: "رابط المورد (https://...)"
+  add_resource_button: "إضافة مورد آخر"
   description_label: "الوصف"
   submit_button: "إرسال المنهجية"
   success: "تم إرسال المنهجية بنجاح! سنراجعها ونضيفها إلى الموسوعة."
@@ -39,7 +49,20 @@ methodology:
   by: "بواسطة"
   back_to_home: "العودة لجميع المنهجيات"
   share: "مشاركة"
+  type_label: "النوع"
+  type_real: "حقيقي"
+  type_satire: "ساخر"
+  resources: "موارد"
+  wikipedia: "ويكيبيديا"
 
 footer:
   powered_by: "بنا بواسطة"
   and: "&"
+  top: "الأعلى"
+  sitemap: "خريطة الموقع"
+  disclaimer: "إخلاء مسؤولية: جميع المحتويات تعبر عن رأيي أو رأي الكاتب ولا تمثل آراء جهة عملي أو أي جهة أخرى. ما لم يُذكر خلاف ذلك، يتم تقديم جميع الأكواد كما هي دون أي ضمانات أو شروط من أي نوع، صريحة أو ضمنية، بما في ذلك على سبيل المثال لا الحصر الضمانات أو الشروط الضمنية للملكية أو الملاءمة لغرض معين أو القابلية للتسويق أو عدم التعدي."
+
+sitemap:
+  title: "خريطة الموقع"
+  main_pages: "الصفحات الرئيسية"
+  methodologies: "المنهجيات"

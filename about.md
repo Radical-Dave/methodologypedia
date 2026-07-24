@@ -12,33 +12,33 @@ permalink: /about/
   <div class="prose dark:prose-invert prose-lg max-w-none space-y-6 text-gray-700 dark:text-gray-300">
     {% if lang == 'ar' %}
       <p>
-        مرحبًا بكم في <strong>MethodologyPedia</strong>، الموسوعة الشاملة لمنهجيات تطوير البرمجيات التي على الأرجح لا يجب أن توجد.
+        مرحبًا بكم في <strong>MethodologyPedia</strong>، الموسوعة الشاملة لمنهجيات تطوير البرمجيات.
       </p>
       <p>
-        بدأ هذا الموقع ك玩笑 في عام 2013 كموقع ASP.NET MVC بسيط، وتطور ليصبح مجموعة متنوعة من المنهجيات الساخرة التي يشاركها مجتمع تطوير البرمجيات. من TDD (تطوير بالشاي) إلى ZDD (تطوير Zzzzz)، نحتفي بجانب المزاح من ثقافة البرمجة.
+        بدأ هذا الموقع كمزحة في عام 2013 كموقع ASP.NET MVC بسيط، وتطور ليصبح مجموعة تجمع بين المنهجيات الحقيقية والمنهجيات الساخرة التي يشاركها مجتمع تطوير البرمجيات.
       </p>
       <p>
-        يرجى عدم استخدام أي من هذه المنهجيات في إنتاج العمل. نحن لسنا مسؤولين عن أي مشاريع فاشلة ناتجة عن تطبيق هذه المنهجيات بشكل جاد.
+        يمكنك استخدام التبديل في الصفحة الرئيسية للتنقل بين Real و Satire. تمثل المنهجيات الحقيقية ممارسات عملية، بينما تمثل المنهجيات الساخرة الجانب الفكاهي من ثقافة البرمجة.
       </p>
     {% elsif lang == 'es' %}
       <p>
-        Bienvenido a <strong>MethodologyPedia</strong>, la enciclopedia definitiva de metodologías de desarrollo de software que probablemente no deberían existir.
+        Bienvenido a <strong>MethodologyPedia</strong>, la enciclopedia definitiva de metodologías de desarrollo de software.
       </p>
       <p>
-        Este sitio comenzó como un chiste en 2013 como un simple sitio ASP.NET MVC, y ha evolucionado hasta convertirse en una colección diversa de metodologías satíricas compartidas por la comunidad de desarrollo de software. Desde TDD (Desarrollo Impulsado por Té) hasta ZDD (Desarrollo Impulsado por Zzzzz), celebramos el lado humorístico de la cultura de la programación.
+        Este sitio comenzó como un chiste en 2013 como un simple sitio ASP.NET MVC, y ha evolucionado hasta convertirse en una colección que combina metodologías reales y metodologías satíricas compartidas por la comunidad de desarrollo de software.
       </p>
       <p>
-        Por favor, no uses ninguna de estas metodologías en producción. No somos responsables de ningún proyecto fallido que resulte de aplicar estas metodologías en serio.
+        Usa el selector de la página principal para alternar entre Real y Satire. Las metodologías reales son referencias prácticas, y las satíricas celebran el lado humorístico de la cultura de la programación.
       </p>
     {% else %}
       <p>
-        Welcome to <strong>MethodologyPedia</strong>, the definitive encyclopedia of software development methodologies that probably shouldn't exist.
+        Welcome to <strong>MethodologyPedia</strong>, the definitive encyclopedia of software development methodologies.
       </p>
       <p>
-        This site started as a joke back in 2013 as a simple ASP.NET MVC website, and has evolved into a diverse collection of satirical methodologies shared by the software development community. From TDD (Tea Driven Development) to ZDD (Zzzzz Driven Development), we celebrate the humorous side of programming culture.
+        This site started as a joke in 2013 as a simple ASP.NET MVC project and has evolved into a collection that combines real methodologies and satirical ones from the software community.
       </p>
       <p>
-        Please do not use any of these methodologies in production work. We are not responsible for any failed projects resulting from the serious application of these methodologies.
+        Use the homepage toggle to switch between Real and Satire. Real entries are practical references, while satirical entries celebrate the humorous side of software culture.
       </p>
     {% endif %}
   </div>

@@ -6,7 +6,7 @@ nav:
 
 home:
   title: "MethodologyPedia"
-  subtitle: "The Encyclopaedia of Software Development Methodologies That Probably Shouldn't Exist"
+  subtitle: "The Encyclopaedia of Software Development Methodologies"
   search_placeholder: "Search methodologies..."
   view_details: "View Details"
   no_results: "No methodologies found."
@@ -30,6 +30,16 @@ submit:
   email_label: "Email"
   methodology_name_label: "Methodology Name (e.g. TDD)"
   methodology_full_name_label: "Full Name (e.g. Tea Driven Development)"
+  methodology_type_label: "Methodology Type"
+  type_real: "Real"
+  type_satire: "Satire"
+  author_name_label: "Author Name"
+  author_name_placeholder: "Optional; defaults to your name"
+  author_url_label: "Author URL"
+  resources_label: "Resources"
+  resource_name_placeholder: "Resource name (optional)"
+  resource_url_placeholder: "Resource URL (https://...)"
+  add_resource_button: "Add another resource"
   description_label: "Description"
   submit_button: "Submit Methodology"
   success: "Methodology submitted successfully! We'll review it and add it to the encyclopaedia."
@@ -39,7 +49,20 @@ methodology:
   by: "by"
   back_to_home: "Back to all methodologies"
   share: "Share"
+  type_label: "Type"
+  type_real: "Real"
+  type_satire: "Satire"
+  resources: "Resources"
+  wikipedia: "Wikipedia"
 
 footer:
   powered_by: "Built by"
   and: "&"
+  top: "Top"
+  sitemap: "Sitemap"
+  disclaimer: "Disclaimer: All content reflects my opinion or the author's and does not represent the views of my employer or anyone else. Unless otherwise stated, all code is provided as is, without warranties or conditions of any kind, express or implied, including without limitation implied warranties or conditions of title, fitness for a particular purpose, merchantability, or non-infringement."
+
+sitemap:
+  title: "Sitemap"
+  main_pages: "Main Pages"
+  methodologies: "Methodologies"
