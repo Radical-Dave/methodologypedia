@@ -17,15 +17,4 @@ description_ar: >-
   اشرح الكود الخاص بك لبطة مطاطية. إذا حكمت عليك البطة بصمت، فالخطأ يعود لك.
 description_es: >-
   Explica tu código a un pato de goma. Si el pato te juzga en silencio, el error es tuyo.
-author: "Test Author"
-author_en_gb: "Test Author"
-author_ar: "Test Author"
-author_es: "Test Author"
-author_url: "https://example.com"
-resources:
-  - label: "Rubber Duck Store"
-    label_en_gb: "Rubber Duck Store"
-    label_ar: "متجر البط المطاطي"
-    label_es: "Tienda de Patitos de Goma"
-    url: "https://example.com/ducks"
 ---
