@@ -46,7 +46,7 @@ layout: default
       <p class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
         {{ site.data.translations[lang].methodology.type_label }}: {{ method_type_label }}
       </p>
-      {% if m.author != "" %}
+      {% if m.author and m.author != "" %}
         <p class="text-gray-600 dark:text-gray-400">
           {{ site.data.translations[lang].methodology.by }}
           {% if m.author_url %}
