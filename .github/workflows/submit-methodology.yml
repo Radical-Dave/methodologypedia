@@ -65,22 +65,21 @@ jobs:
 
       - name: Create methodology file and prepare PR
         id: create-methodology
-        run: |
-          export METHOD_ACRONYM='${{ github.event.client_payload.methodology_name }}'
-          export METHOD_FULL_NAME='${{ github.event.client_payload.full_name }}'
-          export METHOD_DESC_EN='${{ github.event.client_payload.description }}'
-          export METHOD_NAME_AR='${{ steps.translate-name-ar.outputs.translated-text }}'
-          export METHOD_NAME_ES='${{ steps.translate-name-es.outputs.translated-text }}'
-          export METHOD_DESC_AR='${{ steps.translate-desc-ar.outputs.translated-text }}'
-          export METHOD_DESC_ES='${{ steps.translate-desc-es.outputs.translated-text }}'
-          export METHOD_AUTHOR='${{ github.event.client_payload.author_name || github.event.client_payload.name }}'
-          export METHOD_AUTHOR_URL='${{ github.event.client_payload.author_url }}'
-          export METHOD_RESOURCES_JSON='${{ toJson(github.event.client_payload.resources) }}'
-          export METHOD_RESOURCES_AR_JSON='${{ steps.translate-resources-ar.outputs.translated-text }}'
-          export METHOD_RESOURCES_ES_JSON='${{ steps.translate-resources-es.outputs.translated-text }}'
-          export METHOD_TYPE='${{ github.event.client_payload.methodology_type }}'
-
-          python << 'PY'
+        env:
+          METHOD_ACRONYM: ${{ github.event.client_payload.methodology_name }}
+          METHOD_FULL_NAME: ${{ github.event.client_payload.full_name }}
+          METHOD_DESC_EN: ${{ github.event.client_payload.description }}
+          METHOD_NAME_AR: ${{ steps.translate-name-ar.outputs.translated-text }}
+          METHOD_NAME_ES: ${{ steps.translate-name-es.outputs.translated-text }}
+          METHOD_DESC_AR: ${{ steps.translate-desc-ar.outputs.translated-text }}
+          METHOD_DESC_ES: ${{ steps.translate-desc-es.outputs.translated-text }}
+          METHOD_AUTHOR: ${{ github.event.client_payload.author_name || github.event.client_payload.name }}
+          METHOD_AUTHOR_URL: ${{ github.event.client_payload.author_url }}
+          METHOD_RESOURCES_JSON: ${{ toJson(github.event.client_payload.resources) }}
+          METHOD_RESOURCES_AR_JSON: ${{ steps.translate-resources-ar.outputs.translated-text }}
+          METHOD_RESOURCES_ES_JSON: ${{ steps.translate-resources-es.outputs.translated-text }}
+          METHOD_TYPE: ${{ github.event.client_payload.methodology_type }}
+        run: python << 'PY'
           import json
           import os
           import re
@@ -95,8 +94,6 @@ jobs:
           desc_es = os.environ["METHOD_DESC_ES"].strip()
           author = os.environ["METHOD_AUTHOR"].strip()
           author_url = os.environ.get("METHOD_AUTHOR_URL", "").strip()
-          author_ar = author
-          author_es = author
           resources_raw = os.environ.get("METHOD_RESOURCES_JSON", "[]").strip()
           resources_ar_raw = os.environ.get("METHOD_RESOURCES_AR_JSON", "[]").strip()
           resources_es_raw = os.environ.get("METHOD_RESOURCES_ES_JSON", "[]").strip()
@@ -105,49 +102,44 @@ jobs:
           if methodology_type not in {"real", "satire"}:
               methodology_type = "satire"
 
-            resources = []
-            try:
-              parsed_resources = json.loads(resources_raw) if resources_raw else []
-            except json.JSONDecodeError:
-              parsed_resources = []
-
+          def safe_json(raw):
               try:
-                parsed_resources_ar = json.loads(resources_ar_raw) if resources_ar_raw else []
-              except json.JSONDecodeError:
-                parsed_resources_ar = []
+                  parsed = json.loads(raw) if raw else []
+                  return parsed if isinstance(parsed, list) else []
+              except (json.JSONDecodeError, TypeError):
+                  return []
 
-              try:
-                parsed_resources_es = json.loads(resources_es_raw) if resources_es_raw else []
-              except json.JSONDecodeError:
-                parsed_resources_es = []
+          parsed_resources = safe_json(resources_raw)
+          parsed_resources_ar = safe_json(resources_ar_raw)
+          parsed_resources_es = safe_json(resources_es_raw)
 
-            if isinstance(parsed_resources, list):
-                for idx, item in enumerate(parsed_resources):
-                if not isinstance(item, dict):
+          resources = []
+          for idx, item in enumerate(parsed_resources):
+              if not isinstance(item, dict):
                   continue
-                label = str(item.get("label", "")).strip()
-                url = str(item.get("url", "")).strip()
-                if not url or not re.match(r"^https?://", url, flags=re.IGNORECASE):
+              label = str(item.get("label", "")).strip()
+              url = str(item.get("url", "")).strip()
+              if not url or not re.match(r"^https?://", url, flags=re.IGNORECASE):
                   continue
-                if not label:
+              if not label:
                   label = url
 
-                  label_ar = label
-                  if isinstance(parsed_resources_ar, list) and idx < len(parsed_resources_ar) and isinstance(parsed_resources_ar[idx], dict):
-                    label_ar = str(parsed_resources_ar[idx].get("label", label)).strip() or label
+              label_ar = label
+              if idx < len(parsed_resources_ar) and isinstance(parsed_resources_ar[idx], dict):
+                  label_ar = str(parsed_resources_ar[idx].get("label", label)).strip() or label
 
-                  label_es = label
-                  if isinstance(parsed_resources_es, list) and idx < len(parsed_resources_es) and isinstance(parsed_resources_es[idx], dict):
-                    label_es = str(parsed_resources_es[idx].get("label", label)).strip() or label
+              label_es = label
+              if idx < len(parsed_resources_es) and isinstance(parsed_resources_es[idx], dict):
+                  label_es = str(parsed_resources_es[idx].get("label", label)).strip() or label
 
-                  resources.append({
-                    "label": label,
-                    "label_ar": label_ar,
-                    "label_es": label_es,
-                    "url": url,
-                  })
+              resources.append({
+                  "label": label,
+                  "label_ar": label_ar,
+                  "label_es": label_es,
+                  "url": url,
+              })
 
-            resources = resources[:10]
+          resources = resources[:10]
 
           title = f"{acronym} - {full_name}"
           slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
@@ -156,54 +148,35 @@ jobs:
           if file_path.exists():
               raise SystemExit(f"Methodology file already exists: {file_path}")
 
-          def q(value: str) -> str:
+          def q(value):
               return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
 
-          def block(value: str) -> str:
+          def block(value):
               if not value:
                   return "  "
               return "\n".join(f"  {line}" for line in value.replace("\r\n", "\n").replace("\r", "\n").split("\n"))
 
-          def to_en_gb(value: str) -> str:
+          def to_en_gb(value):
               replacements = [
-                  ("Behavior", "Behaviour"),
-                  ("behavior", "behaviour"),
-                  ("Organize", "Organise"),
-                  ("organize", "organise"),
-                  ("Organized", "Organised"),
-                  ("organized", "organised"),
-                  ("Organizing", "Organising"),
-                  ("organizing", "organising"),
-                  ("Organization", "Organisation"),
-                  ("organization", "organisation"),
-                  ("Prioritized", "Prioritised"),
-                  ("prioritized", "prioritised"),
-                  ("Optimize", "Optimise"),
-                  ("optimize", "optimise"),
-                  ("Optimized", "Optimised"),
-                  ("optimized", "optimised"),
-                  ("Optimizing", "Optimising"),
-                  ("optimizing", "optimising"),
-                  ("Maximize", "Maximise"),
-                  ("maximize", "maximise"),
-                  ("Minimize", "Minimise"),
-                  ("minimize", "minimise"),
-                  ("Modeling", "Modelling"),
-                  ("modeling", "modelling"),
-                  ("Modeled", "Modelled"),
-                  ("modeled", "modelled"),
-                  ("Center", "Centre"),
-                  ("center", "centre"),
-                  ("Color", "Colour"),
-                  ("color", "colour"),
-                  ("Analyze", "Analyse"),
-                  ("analyze", "analyse"),
-                  ("Standardization", "Standardisation"),
-                  ("standardization", "standardisation"),
-                  ("Utilize", "Utilise"),
-                  ("utilize", "utilise"),
-                  ("Visualize", "Visualise"),
-                  ("visualize", "visualise"),
+                  ("Behavior", "Behaviour"), ("behavior", "behaviour"),
+                  ("Organize", "Organise"), ("organize", "organise"),
+                  ("Organized", "Organised"), ("organized", "organised"),
+                  ("Organizing", "Organising"), ("organizing", "organising"),
+                  ("Organization", "Organisation"), ("organization", "organisation"),
+                  ("Prioritized", "Prioritised"), ("prioritized", "prioritised"),
+                  ("Optimize", "Optimise"), ("optimize", "optimise"),
+                  ("Optimized", "Optimised"), ("optimized", "optimised"),
+                  ("Optimizing", "Optimising"), ("optimizing", "optimising"),
+                  ("Maximize", "Maximise"), ("maximize", "maximise"),
+                  ("Minimize", "Minimise"), ("minimize", "minimise"),
+                  ("Modeling", "Modelling"), ("modeling", "modelling"),
+                  ("Modeled", "Modelled"), ("modeled", "modelled"),
+                  ("Center", "Centre"), ("center", "centre"),
+                  ("Color", "Colour"), ("color", "colour"),
+                  ("Analyze", "Analyse"), ("analyze", "analyse"),
+                  ("Standardization", "Standardisation"), ("standardization", "standardisation"),
+                  ("Utilize", "Utilise"), ("utilize", "utilise"),
+                  ("Visualize", "Visualise"), ("visualize", "visualise"),
               ]
               result = value
               for old, new in replacements:
@@ -214,7 +187,7 @@ jobs:
           desc_en_gb = to_en_gb(desc_en)
           author_en_gb = author
 
-            lines = [
+          lines = [
               "---",
               "layout: methodology",
               f"title: {q(title)}",
@@ -236,33 +209,25 @@ jobs:
               block(desc_es),
               f"author: {q(author)}",
               f"author_en_gb: {q(author_en_gb)}",
-              f"author_ar: {q(author_ar)}",
-              f"author_es: {q(author_es)}",
-                f"author_url: {q(author_url)}",
-              ]
+              f"author_ar: {q(author)}",
+              f"author_es: {q(author)}",
+              f"author_url: {q(author_url)}",
+          ]
 
-              if resources:
-                lines.append("resources:")
-                for resource in resources:
-                  label = resource["label"]
-                    label_ar = resource["label_ar"]
-                    label_es = resource["label_es"]
-                  url = resource["url"]
+          if resources:
+              lines.append("resources:")
+              for r in resources:
                   lines.extend([
-                    f"  - label: {q(label)}",
-                    f"    label_en_gb: {q(label)}",
-                      f"    label_ar: {q(label_ar)}",
-                      f"    label_es: {q(label_es)}",
-                    f"    url: {q(url)}",
+                      f"  - label: {q(r['label'])}",
+                      f"    label_en_gb: {q(r['label'])}",
+                      f"    label_ar: {q(r['label_ar'])}",
+                      f"    label_es: {q(r['label_es'])}",
+                      f"    url: {q(r['url'])}",
                   ])
 
-              lines.extend([
-                "---",
-                "",
-              ])
+          lines.extend(["---", ""])
 
-              content = "\n".join(lines)
-
+          content = "\n".join(lines)
           file_path.write_text(content, encoding="utf-8")
 
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
