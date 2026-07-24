@@ -79,7 +79,8 @@ jobs:
           METHOD_RESOURCES_AR_JSON: ${{ steps.translate-resources-ar.outputs.translated-text }}
           METHOD_RESOURCES_ES_JSON: ${{ steps.translate-resources-es.outputs.translated-text }}
           METHOD_TYPE: ${{ github.event.client_payload.methodology_type }}
-        run: python << 'PY'
+        run: |
+          python << 'PY'
           import json
           import os
           import re
