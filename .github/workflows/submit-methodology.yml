@@ -18,73 +18,91 @@ jobs:
       - name: Translate name to English
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-name-en
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.full_name }}
           target-language: "English"
+          token: ${{ github.token }}
           custom-instructions: "Translate the software methodology name. Keep it concise. Only output the translation, nothing else."
 
       - name: Translate name to Arabic
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-name-ar
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.full_name }}
           target-language: "Arabic"
+          token: ${{ github.token }}
           custom-instructions: "Translate the software methodology name. Keep it concise. Only output the translation, nothing else."
 
       - name: Translate name to Spanish
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-name-es
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.full_name }}
           target-language: "Spanish"
+          token: ${{ github.token }}
           custom-instructions: "Translate the software methodology name. Keep it concise. Only output the translation, nothing else."
 
       - name: Translate description to English
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-desc-en
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.description }}
           target-language: "English"
+          token: ${{ github.token }}
           custom-instructions: "Translate this software methodology description. Preserve the original tone and meaning. Only output the translation, nothing else."
 
       - name: Translate description to Arabic
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-desc-ar
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.description }}
           target-language: "Arabic"
+          token: ${{ github.token }}
           custom-instructions: "Translate this software methodology description. Preserve the original tone and meaning. Only output the translation, nothing else."
 
       - name: Translate description to Spanish
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-desc-es
+        continue-on-error: true
         with:
           text: ${{ github.event.client_payload.description }}
           target-language: "Spanish"
+          token: ${{ github.token }}
           custom-instructions: "Translate this software methodology description. Preserve the original tone and meaning. Only output the translation, nothing else."
 
       - name: Translate resource labels to English JSON
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-resources-en
+        continue-on-error: true
         with:
           text: ${{ toJson(github.event.client_payload.resources) }}
           target-language: "English"
+          token: ${{ github.token }}
           custom-instructions: "Input is a JSON array of objects with label and url keys. Return ONLY valid JSON array with same length/order/urls. Translate label values to English. Do not add markdown or commentary."
 
       - name: Translate resource labels to Arabic JSON
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-resources-ar
+        continue-on-error: true
         with:
           text: ${{ toJson(github.event.client_payload.resources) }}
           target-language: "Arabic"
+          token: ${{ github.token }}
           custom-instructions: "Input is a JSON array of objects with label and url keys. Return ONLY valid JSON array with same length/order/urls. Translate label values to Arabic. Do not add markdown or commentary."
 
       - name: Translate resource labels to Spanish JSON
         uses: FidelusAleksander/ai-translate-action@v1
         id: translate-resources-es
+        continue-on-error: true
         with:
           text: ${{ toJson(github.event.client_payload.resources) }}
           target-language: "Spanish"
+          token: ${{ github.token }}
           custom-instructions: "Input is a JSON array of objects with label and url keys. Return ONLY valid JSON array with same length/order/urls. Translate label values to Spanish. Do not add markdown or commentary."
 
       - name: Create methodology file and prepare PR
@@ -93,18 +111,18 @@ jobs:
           METHOD_ACRONYM: ${{ github.event.client_payload.methodology_name }}
           METHOD_FULL_NAME: ${{ github.event.client_payload.full_name }}
           METHOD_DESC_SOURCE: ${{ github.event.client_payload.description }}
-          METHOD_NAME_EN: ${{ steps.translate-name-en.outputs.translated-text }}
-          METHOD_NAME_AR: ${{ steps.translate-name-ar.outputs.translated-text }}
-          METHOD_NAME_ES: ${{ steps.translate-name-es.outputs.translated-text }}
-          METHOD_DESC_EN: ${{ steps.translate-desc-en.outputs.translated-text }}
-          METHOD_DESC_AR: ${{ steps.translate-desc-ar.outputs.translated-text }}
-          METHOD_DESC_ES: ${{ steps.translate-desc-es.outputs.translated-text }}
+          METHOD_NAME_EN: ${{ steps.translate-name-en.outputs.translated-text || github.event.client_payload.full_name }}
+          METHOD_NAME_AR: ${{ steps.translate-name-ar.outputs.translated-text || github.event.client_payload.full_name }}
+          METHOD_NAME_ES: ${{ steps.translate-name-es.outputs.translated-text || github.event.client_payload.full_name }}
+          METHOD_DESC_EN: ${{ steps.translate-desc-en.outputs.translated-text || github.event.client_payload.description }}
+          METHOD_DESC_AR: ${{ steps.translate-desc-ar.outputs.translated-text || github.event.client_payload.description }}
+          METHOD_DESC_ES: ${{ steps.translate-desc-es.outputs.translated-text || github.event.client_payload.description }}
           METHOD_AUTHOR: ${{ github.event.client_payload.author_name || github.event.client_payload.name }}
           METHOD_AUTHOR_URL: ${{ github.event.client_payload.author_url }}
           METHOD_RESOURCES_JSON: ${{ toJson(github.event.client_payload.resources) }}
-          METHOD_RESOURCES_EN_JSON: ${{ steps.translate-resources-en.outputs.translated-text }}
-          METHOD_RESOURCES_AR_JSON: ${{ steps.translate-resources-ar.outputs.translated-text }}
-          METHOD_RESOURCES_ES_JSON: ${{ steps.translate-resources-es.outputs.translated-text }}
+          METHOD_RESOURCES_EN_JSON: ${{ steps.translate-resources-en.outputs.translated-text || toJson(github.event.client_payload.resources) }}
+          METHOD_RESOURCES_AR_JSON: ${{ steps.translate-resources-ar.outputs.translated-text || toJson(github.event.client_payload.resources) }}
+          METHOD_RESOURCES_ES_JSON: ${{ steps.translate-resources-es.outputs.translated-text || toJson(github.event.client_payload.resources) }}
           METHOD_TYPE: ${{ github.event.client_payload.methodology_type }}
           METHOD_SOURCE_LANG: ${{ github.event.client_payload.source_lang }}
         run: |
